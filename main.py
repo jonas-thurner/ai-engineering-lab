@@ -26,6 +26,7 @@ NEVER make up a price or use math to calculate a discount.
 Do NEVER assume a discount tier.
 """
 
+
 @tool
 def get_product_price(product: str) -> float:
     """
@@ -63,6 +64,7 @@ def apply_discount(price: float, discount_tier: str) -> float:
     }
     return round(price * discount_factor.get(discount_tier, 1), 2)
 
+
 @traceable(name="LangChain Agent Loop")
 def run_agent(question: str):
     tools = [get_product_price, apply_discount]
@@ -73,10 +75,7 @@ def run_agent(question: str):
     print(f"Question: {question}")
     print("=" * 50)
 
-    messages = [
-        SystemMessage(content=SYSTEM_PROMPT),
-        HumanMessage(content=question)
-    ]
+    messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=question)]
 
     for i in range(1, MAX_ITERATIONS + 1):
         print(f"Iteration {i}")
@@ -93,27 +92,23 @@ def run_agent(question: str):
 
         tool_call = tool_calls[0]
         tool_name = tool_call.get("name")
-        tool_args = tool_call.get("args",{})
+        tool_args = tool_call.get("args", {})
         tool_call_id = tool_call.get("id")
 
         print(f" [Tool Selected] {tool_name} ({tool_call_id}) with args: {tool_args}")
-        
+
         tool = tools_dict.get(tool_name)
         if tool is None:
             raise ValueError(f"Tool {tool_name} not found.")
-        
+
         observation = tool.invoke(tool_args)
 
         # Keep the full history of AI messages
         messages.append(ai_message)
         # Add the observation from the tool
         messages.append(
-            ToolMessage(
-                content=str(observation),
-                tool_call_id=tool_call_id
-            )
+            ToolMessage(content=str(observation), tool_call_id=tool_call_id)
         )
-
 
 
 def main() -> None:
