@@ -5,15 +5,17 @@ from langchain_tavily import TavilySearch
 
 load_dotenv()
 
+
 @tool
 def triple(num: float) -> float:
     """
     ARGS:
         num: a number to triple
-    RETURNS: 
+    RETURNS:
         the triple of the input number
     """
     return float(num) * 3
+
 
 tools = [TavilySearch(max_results=1), triple]
 
