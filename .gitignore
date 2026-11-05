@@ -1,0 +1,13 @@
+# Secrets: every project keeps its own .env (see each .env.example)
+.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Editors & OS
+.idea/
+.vscode/
+.DS_Store
