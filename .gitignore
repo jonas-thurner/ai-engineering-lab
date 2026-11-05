@@ -1,5 +1,7 @@
-# Secrets: every project keeps its own .env (see each .env.example)
+# Secrets: every project keeps its own .env (copy it from .env.example)
 .env
+.env.*
+!.env.example
 
 # Python
 .venv/
