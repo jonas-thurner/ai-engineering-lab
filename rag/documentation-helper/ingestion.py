@@ -76,7 +76,7 @@ async def main():
     """
     Main async function to orchestrate the entire process.
     """
-    # Crawl the documentation site of langchain
+    # Crawl the SigmaHQ documentation site
     res = tavily_crawl.invoke(
         {
             "url": "https://sigmahq.io/",

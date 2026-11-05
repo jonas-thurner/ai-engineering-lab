@@ -13,8 +13,8 @@ def _format_sources(context_docs: List[Any]) -> List[str]:
     ]
 
 
-st.set_page_config(page_title="LangChain Documentation Helper", layout="centered")
-st.title("LangChain Documentation Helper")
+st.set_page_config(page_title="SigmaHQ Documentation Helper", layout="centered")
+st.title("SigmaHQ Documentation Helper")
 
 with st.sidebar:
     st.subheader("Session")
@@ -26,7 +26,7 @@ if "messages" not in st.session_state:
     st.session_state.messages = [
         {
             "role": "assistant",
-            "content": "Ask me anything about LangChain docs. I’ll retrieve relevant context and cite sources.",
+            "content": "Ask me anything about Sigma detection rules and the SigmaHQ docs. I’ll retrieve relevant context and cite sources.",
             "sources": [],
         }
     ]
@@ -39,7 +39,7 @@ for msg in st.session_state.messages:
                 for s in msg["sources"]:
                     st.markdown(f"- {s}")
 
-prompt = st.chat_input("Ask a question about LangChain…")
+prompt = st.chat_input("Ask a question about Sigma rules…")
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt, "sources": []})
     with st.chat_message("user"):

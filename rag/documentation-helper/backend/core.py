@@ -41,7 +41,7 @@ def run_llm(query: str) -> Dict[str, Any]:
     """
 
     system_prompt = """
-    You are an assitant LLM agent. 
+    You are an assistant for the SigmaHQ documentation and Sigma detection rules.
     You have access to a tool that retrieves documentation.
     Use the tool before answering. 
     Cite sources in your answers. 
