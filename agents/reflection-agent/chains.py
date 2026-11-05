@@ -1,5 +1,5 @@
+from langchain.chat_models import init_chat_model
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_openai import ChatOpenAI
 
 # ChatPromptTemplate: a reusable chat prompt that becomes a list of messages once its variables are filled in
 # from_messages builds it from (role, content) tuples and placeholders
@@ -31,6 +31,6 @@ generation_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-llm = ChatOpenAI()
+llm = init_chat_model("ollama:granite4.2:3b")
 generate_chain = generation_prompt | llm
 reflection_chain = reflection_prompt | llm
