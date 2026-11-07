@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from graph.consts import RETRIEVER_K
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -50,7 +51,7 @@ retriever = Chroma(
     collection_name=COLLECTION_NAME,
     persist_directory=PERSIST_DIRECTORY,
     embedding_function=OpenAIEmbeddings(),
-).as_retriever()
+).as_retriever(search_kwargs={"k": RETRIEVER_K})
 
 
 if __name__ == "__main__":
