@@ -10,7 +10,6 @@ from langchain_core.output_parsers.openai_tools import (JsonOutputToolsParser,
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
-
 from schemas import AnswerQuestion, ReviseAnswer
 
 actor_prompt_template = ChatPromptTemplate.from_messages(
