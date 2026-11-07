@@ -11,7 +11,6 @@ from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 from langchain_tavily import TavilyCrawl, TavilyExtract, TavilyMap
-
 from logger import (Colors, log_error, log_header, log_info, log_success,
                     log_warning)
 
@@ -51,9 +50,10 @@ tavily_map = TavilyMap(max_depth=5, max_breadth=20, max_pages=1000)
 # Crawl: map + extract in one step — follows links and returns page content
 tavily_crawl = TavilyCrawl()
 
+
 async def index_documents_async(documents: List[Document], batch_size: int = 50):
     batches = [
-        documents[i:i+batch_size] for i in range(0, len(documents), batch_size)
+        documents[i : i + batch_size] for i in range(0, len(documents), batch_size)
     ]
 
     async def add_batch(batch: List[Document], batch_num: int):
@@ -64,13 +64,14 @@ async def index_documents_async(documents: List[Document], batch_size: int = 50)
             return False
         return True
 
-    tasks = [add_batch(batch,i+1) for i, batch in enumerate(batches)]
+    tasks = [add_batch(batch, i + 1) for i, batch in enumerate(batches)]
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
     successful = sum(1 for result in results if result is True) == len(batches)
 
     if not successful:
         raise RuntimeError("At least one batch failed.")
+
 
 async def main():
     """

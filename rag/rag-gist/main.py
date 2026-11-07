@@ -1,18 +1,19 @@
 import os
 
 from dotenv import load_dotenv
-from langchain_unstructured import UnstructuredLoader
-from langchain_text_splitters import CharacterTextSplitter
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama import ChatOllama
 from langchain_openai import OpenAIEmbeddings
-from langchain_ollama import ChatOllama 
 from langchain_pinecone import PineconeVectorStore
+from langchain_text_splitters import CharacterTextSplitter
+from langchain_unstructured import UnstructuredLoader
 
 load_dotenv()
 
 retriever = None
 llm = None
+
 
 def init_pinecone():
     print("Ingesting...")
@@ -43,6 +44,7 @@ def init_pinecone():
 
     print("Finished!")
 
+
 def get_retriever():
     global retriever
     if retriever is not None:
@@ -54,42 +56,37 @@ def get_retriever():
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     return retriever
 
+
 def get_llm():
     global llm
     if llm is not None:
         return llm
-    llm = ChatOllama(
-        model="granite4.2:3b"
-    )
+    llm = ChatOllama(model="granite4.2:3b")
     return llm
 
-prompt_template = ChatPromptTemplate.from_template(
-    """
+
+prompt_template = ChatPromptTemplate.from_template("""
     Answer the question based only on the following context.
 
     {context}
 
     Question: {question}
-    """
-)
+    """)
+
 
 def format_docs(docs):
     "Format docs retrieved from Pinecone to be used in the prompt template."
     return "\n\n".join(doc.page_content for doc in docs)
 
+
 def retrieval_chain_without_langchain(query: str):
     retriever = get_retriever()
     docs = retriever.invoke(query)
     formatted_docs = format_docs(docs)
-    prompt = prompt_template.format(
-        context=formatted_docs,
-        question=query
-    )
+    prompt = prompt_template.format(context=formatted_docs, question=query)
     message = HumanMessage(content=prompt)
     response = get_llm().invoke([message])
     return response.content
-
-
 
 
 def main():
@@ -97,7 +94,7 @@ def main():
     print(retrieval_chain_without_langchain(question))
     # retriever = get_retriever()
     # llm = get_llm()
-    # 
+    #
 
     # response = llm.invoke(
     #     messages=[
